@@ -9,10 +9,5 @@ export const StyledContainer = styled.div.attrs({
   style: (props: IStyledProps) => props.style || {}  // 优先级会高一些，行内样式
 })<IStyledProps>`
   display: ${(props: IStyledProps) => (props.visible ? 'block' : 'none')};
-  border-radius: 5px;
-  background: ${(props: IStyledProps) => props.theme.main};
-  width: 100%;
-  height: 200px;
-  padding: 10px 20px;
 `;
 
