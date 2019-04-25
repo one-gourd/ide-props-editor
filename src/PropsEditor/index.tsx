@@ -7,7 +7,7 @@ import { TComponentCurrying } from "ide-lib-engine";
 import { StyledContainer } from "./styles";
 import { ISubProps } from "./subs";
 import { Form } from "./form";
-import { edtiorsType } from "./edtiors";
+import {formDataType, onChangeType} from "./baseType";
 
 const Panel = Collapse.Panel;
 
@@ -25,7 +25,7 @@ export interface IPropsEditorTheme extends IBaseTheme {
 export interface IPropsEditorProps
   extends IPropsEditorEvent,
     ISubProps,
-    IBaseComponentProps {
+    IBaseComponentProps,formDataType,onChangeType {
   /**
    * schema 输入源
    */
@@ -42,6 +42,7 @@ export interface IPropsEditorProps
 
 export const DEFAULT_PROPS: IPropsEditorProps = {
   schema: {},
+  formData: {},
   visible: true,
   theme: {
     main: "#25ab68"
@@ -57,14 +58,7 @@ export const PropsEditorCurrying: TComponentCurrying<
   IPropsEditorProps,
   ISubProps
 > = subComponents => props => {
-  const { visible,schema,useEditor, text, styles, onClick } = props;
-
-  const onClickButton = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      onClick && onClick(e);
-    },
-    [onClick]
-  );
+  const { visible,schema,useEditor, styles,formData,onChange } = props;
 
   let {group,properties} = schema;
 
@@ -77,7 +71,7 @@ export const PropsEditorCurrying: TComponentCurrying<
         let newProperties: object = {};
         groupProperties.map((propName:string)=>{
           newProperties[propName] = properties[propName];
-        })
+        });
 
         item.properties = newProperties;
         FormSchema.push(item);
@@ -112,7 +106,7 @@ export const PropsEditorCurrying: TComponentCurrying<
       <Collapse defaultActiveKey={defaultActiveKey}>
         {FormSchema.map((item)=>{
             return <Panel header={item.title} key={item.name}>
-              <Form schema={item.properties} useEditor={useEditor}  />
+              <Form schema={item.properties} formData={formData}  useEditor={useEditor} onChange={onChange}  />
             </Panel>;
         })}
         

@@ -4,73 +4,56 @@
 
 
 import React from "react";
-import {Row,Col} from 'antd';
-import {editors,editorsType} from "./edtiors";
-import {Label} from "./propEditor/label";
+import {editors} from "./edtiors";
+import {propType, formDataType, onChangeType} from "./baseType";
 
-export interface useEditorType{
-  useEditor(fieldProps:FieldProps,editors:[]): React.FunctionComponent<any>|React.Component<any>;
-}
-
-interface FieldProps {
-  type:string;
-  title:string;
-  prop:string;
-  useEditor(fieldProps:FieldProps,editors:[]): React.FunctionComponent<any>|React.Component<any>;
+interface FieldProps extends propType,formDataType,onChangeType{
+  useEditor?(propSchema:any,editors:any): any;
 }
 
 
 const Field:React.FunctionComponent<FieldProps> = (fieldProps)=>{
-  const {type,title,prop,useEditor} = fieldProps;
-  let Editor = useEditor({type,title,prop},editors);
+  const {type,useEditor} = fieldProps;
+  //优先使用开发者定义的编辑器
+  let Editor = useEditor(fieldProps,editors);
   if(!Editor){
       Editor = editors[type];
       if(Editor){
-        Editor = (<Editor />)
+        let props = fieldProps;
+        //enum 是 ts 关键字，为了防止报错，使用 enumValues 代替
+        if(type === 'enum'){
+          props = Object.assign({},{enumValues:fieldProps.enum},fieldProps);
+        }
+        Editor = (<Editor {...props} />)
       }else{
         Editor = null;
       }
   }
 
-  return (<Row className='ide-props-editor-field'>
-    <Col>
-        <Label title={title} prop={prop} />
-    </Col>
-    <Col>
-      {Editor}
-    </Col>
-  </Row>);
+  return Editor;
 };
 
-export interface FormProps {
+export interface FormProps extends formDataType,onChangeType{
     /**
      * schema 输入源
      */
     schema: object;
-    useEditor?(propSchema:any,editors:any): React.FunctionComponent<any>|React.Component<any,{},any>|null;
-    uiSchema?: object;
+    useEditor?(propSchema:any,editors:any): any;
     styles?: object;
-    formData?: object;
-    /**
-     * 编辑后触发的事件
-     */
-    onChange?: void;
 }
 
 export const DEFAULT_PROPS: FormProps = {
     schema: {},
-    uiSchema: {},
+    formData: {},
     styles: {}
 };
 
-
-
 export const Form:React.FunctionComponent<FormProps> = (props)=>{
     const mergedProps = Object.assign({},DEFAULT_PROPS,props);
-    const {schema,useEditor} = mergedProps;
+    const {schema,useEditor,formData,onChange} = mergedProps;
     const fields:Array<React.FunctionComponent> = [];
     for(const fieldName in schema){
-      fields.push(<Field {...schema[fieldName]} prop={fieldName} useEditor={useEditor} />);
+      fields.push(<Field {...schema[fieldName]} prop={fieldName} formData={formData} onChange={onChange} useEditor={useEditor} />);
     }
     return (<div>
       {fields}

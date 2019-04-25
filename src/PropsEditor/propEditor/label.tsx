@@ -17,7 +17,7 @@ export const Label:React.FunctionComponent<LabelProps> = (props)=>{
 
   const {title,prop,hideTooltip} = props;
 
-  const main = (<span>{title}</span>);
+  const main = (<span style={{textAlign: 'right',display: 'block',marginRight: 5}}>{title}</span>);
 
   if(hideTooltip){
     return main;
