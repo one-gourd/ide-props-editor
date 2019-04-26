@@ -74,3 +74,23 @@ export interface schemaType {
    */
   properties: propertiesType;
 }
+
+export interface editorExtraParamType{
+  /**
+   * 用于标记唯一性的属性名
+   */
+  key?:string;
+  /**
+   * mbox 的 store ，用于变量输入框的自动提示
+   */
+  $store?:any;
+  /**
+   * 函数编辑器使用，用于调用函数面板
+   */
+  clientFnSets?:any;
+  /**
+   * 函数名规则
+   */
+  fnNameRule?: string;
+  [prop: string]: any;
+}

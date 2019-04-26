@@ -17,12 +17,13 @@ export interface WrapperProps extends propEditorType,themeStylesType{
  * @constructor
  */
 export const InlineWrapper:React.FunctionComponent<WrapperProps> = (props)=>{
-  const {title,prop,children,theme,styles,$store,onChange,formData} = props;
+  const {title,prop,children,theme,styles,editorExtraParam,onChange,formData} = props;
   const spanLabel = 6;
   const spanVar = 2;
   const spanMain = !props.hideVarSwitch ? 16 : 16 + 2;
   let initVisibleVarInput = false;
   const value = formData[prop];
+  const {$store} = editorExtraParam;
   if($store && typeof value === 'string' && value.indexOf('$store.') > -1){
     initVisibleVarInput = true;
   }
@@ -47,7 +48,7 @@ export const InlineWrapper:React.FunctionComponent<WrapperProps> = (props)=>{
     </Col>
     <Col span={spanMain}>
       <div style={{display: visibleVarInput ? 'none' : 'block'}}>{children}</div>
-      <VarInput value={value} $store={$store} visible={visibleVarInput} onChange={varInputChange} />
+      {!props.hideVarSwitch ? <VarInput value={value} $store={$store} visible={visibleVarInput} onChange={varInputChange} />:null}
     </Col>
     {!props.hideVarSwitch ? <Col span={spanVar}><VarSwitch value={initVisibleVarInput} theme={theme} styles={styles} onChange={varSwitchChange} /></Col> : null}
   </Row>);

@@ -5,10 +5,11 @@
 
 import React from "react";
 import {editors} from "./edtiors";
-import {propType, formDataType, onChangeType, propertiesType, themeStylesType} from "./baseType";
+import {propType, formDataType, onChangeType, propertiesType, themeStylesType, editorExtraParamType} from "./baseType";
 
 interface FieldProps extends propType,formDataType,onChangeType,themeStylesType{
   useEditor?(propSchema:any,editors:any): any;
+  editorExtraParam?: editorExtraParamType;
 }
 
 
@@ -39,6 +40,7 @@ export interface FormProps extends formDataType,onChangeType,themeStylesType{
      */
     schema: propertiesType;
     useEditor?(propSchema:any,editors:any): any;
+    editorExtraParam?: editorExtraParamType;
 }
 
 export const DEFAULT_PROPS: FormProps = {
@@ -49,10 +51,10 @@ export const DEFAULT_PROPS: FormProps = {
 
 export const Form:React.FunctionComponent<FormProps> = (props)=>{
     const mergedProps = Object.assign({},DEFAULT_PROPS,props);
-    const {schema,useEditor,formData,onChange,theme,styles,$store} = mergedProps;
+    const {schema,useEditor,formData,onChange,theme,styles,editorExtraParam} = mergedProps;
     const fields:Array<React.FunctionComponent> = [];
     for(const fieldName in schema){
-      fields.push(<Field {...schema[fieldName]} theme={theme} styles={styles} $store={$store} prop={fieldName} formData={formData} onChange={onChange} useEditor={useEditor} />);
+      fields.push(<Field {...schema[fieldName]} theme={theme} styles={styles} editorExtraParam={editorExtraParam} prop={fieldName} formData={formData} onChange={onChange} useEditor={useEditor} />);
     }
     return (<div>
       {fields}

@@ -6,6 +6,15 @@ import { PropsEditor, PropsEditorFactory, IPropsEditorProps,schemaType } from '.
 import {onChangeParamType} from "../src/PropsEditor/baseType";
 const { ComponentWithStore: PropsEditorWithStore, client } = PropsEditorFactory();
 
+//函数编辑面板
+import { FunctionSets, FunctionSetsFactory, IFunctionSetsProps } from 'ide-function-sets';
+
+const {
+  ComponentWithStore: FunctionSetsWithStore,
+  client: clientFnSets
+} = FunctionSetsFactory();
+
+
 const schema:schemaType = {
   "group": [
     {
@@ -13,6 +22,12 @@ const schema:schemaType = {
       "defaultOpen": true,
       "title": "基础属性",
       "properties": ["key","children","size","loading","shap","width"]
+    },
+    {
+      "name": "event",
+      "defaultOpen": true,
+      "title": "事件",
+      "properties": ["onChange"]
     }
   ],
   "properties": {
@@ -42,6 +57,10 @@ const schema:schemaType = {
       "width": {
         "type": "number",
         "title": "宽度"
+      },
+      "onChange":{
+        "type": "function",
+        "title": "值改变后"
       }
   }
 };
@@ -68,14 +87,6 @@ const $store = {
   }
 };
 
-// function onClickWithStore(value) {
-//   client.put(`/model`, {
-//     name: 'text',
-//     value: `gggg${Math.random()}`.slice(0, 8)
-//   });
-
-// }
-
 /**
  * 根据属性自定义使用的编辑器
  * @param propSchema
@@ -93,8 +104,24 @@ const props: IPropsEditorProps = {
   schema: schema,
   formData : formData,
   $store: $store,
-  useEditor: useEditor
+  useEditor: useEditor,
+  editorExtraParam: {
+    key: 'key',
+    $store: $store,
+    clientFnSets: clientFnSets,
+    fnNameRule : '__$comId_$fnName'
+  }
 };
+
+// 当函数有更改的时候
+function onFnListChange(type, fnItem, fnLists, actionContext) {
+  console.log(`list change, type: ${type}, fnItem: %o`, fnItem);
+
+  const { context } = actionContext;
+
+  // 没有报错，才会自动关闭弹层
+  return !context.hasError;
+}
 
 function reducer(state,action) {
   return Object.assign({},action.formData);
@@ -105,7 +132,7 @@ const Demo:React.FunctionComponent<IPropsEditorProps> = (props)=>{
   const handleChange = useCallback((ev:onChangeParamType)=>{
     dispatch({type:'change',formData: ev.formData});
   }, []);
-  return (<Row>
+  return (<div><Row>
     <Col span={12}>
       <div style={{marginRight: 10}}>
         <p>属性值</p>
@@ -118,7 +145,9 @@ const Demo:React.FunctionComponent<IPropsEditorProps> = (props)=>{
     <Col span={12}>
       <PropsEditor {...props} onChange={handleChange} />
     </Col>
-  </Row>);
+  </Row>
+  <FunctionSetsWithStore onFnListChange={onFnListChange}/>
+  </div>);
 };
 
 render(

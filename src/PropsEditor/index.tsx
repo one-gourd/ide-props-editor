@@ -7,7 +7,7 @@ import { TComponentCurrying } from "ide-lib-engine";
 import { StyledContainer } from "./styles";
 import { ISubProps } from "./subs";
 import { Form } from "./form";
-import {formDataType, onChangeType,schemaType,groupType} from "./baseType";
+import {formDataType, onChangeType, schemaType, groupType, editorExtraParamType} from "./baseType";
 import { theme,styles } from "./theme/default";
 
 
@@ -38,10 +38,7 @@ export interface IPropsEditorProps
    * 是否展现
    */
   visible?: boolean;
-  /**
-   * mbox 的 store ，用于变量输入框的自动提示
-   */
-  $store?: any;
+  editorExtraParam?: editorExtraParamType;
   /**
    * 指定使用特定的属性编辑器
    */
@@ -55,7 +52,6 @@ export const DEFAULT_PROPS: IPropsEditorProps = {
   },
   formData: {},
   visible: true,
-  $store: {},
   theme: theme,
   styles: styles
 };
@@ -64,7 +60,7 @@ export const PropsEditorCurrying: TComponentCurrying<
   IPropsEditorProps,
   ISubProps
 > = subComponents => props => {
-  const { visible,schema,useEditor, styles,formData,onChange,theme,$store } = props;
+  const { visible,schema,useEditor, styles,formData,onChange,theme,editorExtraParam} = props;
 
   let {group,properties} = schema;
 
@@ -112,7 +108,7 @@ export const PropsEditorCurrying: TComponentCurrying<
       <Collapse defaultActiveKey={defaultActiveKey}>
         {FormSchema.map((item:groupType)=>{
             return <Panel header={item.title} key={item.name}>
-              <Form key={item.name} theme={theme} styles={styles} $store={$store} schema={item.properties} formData={formData}  useEditor={useEditor} onChange={onChange}  />
+              <Form key={item.name} theme={theme} styles={styles} editorExtraParam={editorExtraParam} schema={item.properties} formData={formData}  useEditor={useEditor} onChange={onChange}  />
             </Panel>;
         })}
         

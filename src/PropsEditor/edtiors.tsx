@@ -3,13 +3,8 @@ import { EnumEditor } from "./propEditor/enum";
 import { BooleanEditor } from "./propEditor/boolean";
 import { IdEditor } from "./propEditor/id";
 import { NumberEditor } from "./propEditor/number";
+import { FunctionEditor } from "./propEditor/function";
 import React from "react";
-
-export enum TYPE {
-  string = 'string',
-  boolean = 'boolean',
-  enum = 'enum'
-}
 
 export interface editorsType {
   [index: string]: any;
@@ -18,6 +13,7 @@ export interface editorsType {
   boolean: React.FunctionComponent<any> | React.Component<any,any>;
   id: React.FunctionComponent<any> | React.Component<any,any>;
   number: React.FunctionComponent<any> | React.Component<any,any>;
+  function: React.FunctionComponent<any> | React.Component<any,any>;
 }
 
 export const editors: editorsType = {
@@ -25,5 +21,6 @@ export const editors: editorsType = {
   "enum": EnumEditor,
   "boolean": BooleanEditor,
   "id": IdEditor,
-  "number": NumberEditor
+  "number": NumberEditor,
+  "function": FunctionEditor
 };
