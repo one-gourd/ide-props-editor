@@ -41,9 +41,9 @@ export const InlineWrapper:React.FunctionComponent<WrapperProps> = (props)=>{
     changeFormData(prop,value,formData,onChange);
   },[]);
 
-  return (<Row className='ide-props-editor-field-wrapper' style={{marginBottom: 10}}>
+  return (<Row className='ide-props-editor-field-wrapper' style={styles.field}>
     <Col span={spanLabel}>
-      <Label title={title} prop={prop} />
+      <Label title={title} prop={prop} theme={theme} styles={styles} />
     </Col>
     <Col span={spanMain}>
       <div style={{display: visibleVarInput ? 'none' : 'block'}}>{children}</div>

@@ -32,7 +32,7 @@ const copy = (id:string)=>{
 };
 
 export const IdEditor:React.FunctionComponent<IdEditorProps> = (props)=>{
-  const {prop,prefix,formData,onChange} = props;
+  const {prop,prefix,formData,onChange,theme, styles} = props;
   const ids:string[] = formData[`${prop}s`] || [];
   const [value,setValue] = useState(formData[prop] || '');
   const cbChange = useCallback((ev)=>{
@@ -53,9 +53,9 @@ export const IdEditor:React.FunctionComponent<IdEditorProps> = (props)=>{
   },[]);
 
   const EditerMain = (<div>
-    <Input size="small" style={{width: '90%'}} onChange={cbChange} value={value} />
+    <Input size="small" style={styles.idInput} onChange={cbChange} value={value} />
     <Tooltip title={`复制 ${prop} 的值`}>
-      <Icon type={'copy'} onClick={()=> copy(value)} style={{float: 'right', fontSize: 16, marginTop: 3}}/>
+      <Icon type={'copy'} onClick={()=> copy(value)} style={Object.assign({}, styles.idCopyIcon, {color: theme.iconDefaultColor})}/>
     </Tooltip>
   </div>);
 

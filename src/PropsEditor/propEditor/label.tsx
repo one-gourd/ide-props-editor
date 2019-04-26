@@ -4,24 +4,24 @@
 
 import React from "react";
 import {Tooltip} from 'antd';
+import {themeStylesType} from "../baseType";
 
-export interface LabelProps {
-  title:string;
-  prop:string;
-  hideTooltip?:boolean;
-  styles?:object;
+export interface LabelProps extends themeStylesType {
+  title: string;
+  prop: string;
+  hideTooltip?: boolean;
 }
 
 
-export const Label:React.FunctionComponent<LabelProps> = (props)=>{
+export const Label: React.FunctionComponent<LabelProps> = (props) => {
 
-  const {title,prop,hideTooltip} = props;
+  const {title, prop, hideTooltip, styles} = props;
 
-  const main = (<span style={{textAlign: 'right',display: 'block',marginRight: 5}}>{title}</span>);
+  const main = (<span style={styles.label}>{title}</span>);
 
-  if(hideTooltip){
+  if (hideTooltip) {
     return main;
-  }else{
+  } else {
     return (<Tooltip title={prop}>
       {main}
     </Tooltip>);
