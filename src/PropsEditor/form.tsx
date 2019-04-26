@@ -5,9 +5,9 @@
 
 import React from "react";
 import {editors} from "./edtiors";
-import {propType, formDataType, onChangeType} from "./baseType";
+import {propType, formDataType, onChangeType, propertiesType, themeStylesType} from "./baseType";
 
-interface FieldProps extends propType,formDataType,onChangeType{
+interface FieldProps extends propType,formDataType,onChangeType,themeStylesType{
   useEditor?(propSchema:any,editors:any): any;
 }
 
@@ -33,13 +33,12 @@ const Field:React.FunctionComponent<FieldProps> = (fieldProps)=>{
   return Editor;
 };
 
-export interface FormProps extends formDataType,onChangeType{
+export interface FormProps extends formDataType,onChangeType,themeStylesType{
     /**
      * schema 输入源
      */
-    schema: object;
+    schema: propertiesType;
     useEditor?(propSchema:any,editors:any): any;
-    styles?: object;
 }
 
 export const DEFAULT_PROPS: FormProps = {
@@ -50,10 +49,10 @@ export const DEFAULT_PROPS: FormProps = {
 
 export const Form:React.FunctionComponent<FormProps> = (props)=>{
     const mergedProps = Object.assign({},DEFAULT_PROPS,props);
-    const {schema,useEditor,formData,onChange} = mergedProps;
+    const {schema,useEditor,formData,onChange,theme,styles,$store} = mergedProps;
     const fields:Array<React.FunctionComponent> = [];
     for(const fieldName in schema){
-      fields.push(<Field {...schema[fieldName]} prop={fieldName} formData={formData} onChange={onChange} useEditor={useEditor} />);
+      fields.push(<Field {...schema[fieldName]} theme={theme} styles={styles} $store={$store} prop={fieldName} formData={formData} onChange={onChange} useEditor={useEditor} />);
     }
     return (<div>
       {fields}

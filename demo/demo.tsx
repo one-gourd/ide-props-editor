@@ -2,11 +2,11 @@ import React, { useState, useCallback,useReducer } from 'react';
 import { render } from 'react-dom';
 import {Row,Col,Button,Input} from 'antd';
 const { TextArea } = Input;
-import { PropsEditor, PropsEditorFactory, IPropsEditorProps } from '../src/';
+import { PropsEditor, PropsEditorFactory, IPropsEditorProps,schemaType } from '../src/';
 import {onChangeParamType} from "../src/PropsEditor/baseType";
 const { ComponentWithStore: PropsEditorWithStore, client } = PropsEditorFactory();
 
-const schema = {
+const schema:schemaType = {
   "group": [
     {
       "name": "base",
@@ -49,10 +49,23 @@ const schema = {
 const formData = {
   "children": "按钮测试",
   "loading": true,
-  "size": "medium",
+  "size": "$store.$Button_999.children",
   "key": "$Button_999",
   //用于 id 是否唯一的判断
   "keys": ["$Button_123"],
+};
+
+//mbox 的 store ，用于变量输入框的自动提示
+const $store = {
+  $Button_999: {
+    "children": "按钮测试",
+    "loading": true,
+    "size": "medium",
+    "key": "$Button_999"
+  },
+  "a": {
+    "loading": false
+  }
 };
 
 // function onClickWithStore(value) {
@@ -79,11 +92,7 @@ const props: IPropsEditorProps = {
   visible: true,
   schema: schema,
   formData : formData,
-  styles: {
-    container: {
-      width: 300
-    }
-  },
+  $store: $store,
   useEditor: useEditor
 };
 

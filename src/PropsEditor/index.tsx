@@ -7,7 +7,9 @@ import { TComponentCurrying } from "ide-lib-engine";
 import { StyledContainer } from "./styles";
 import { ISubProps } from "./subs";
 import { Form } from "./form";
-import {formDataType, onChangeType} from "./baseType";
+import {formDataType, onChangeType,schemaType,groupType} from "./baseType";
+import { theme,styles } from "./theme/default";
+
 
 const Panel = Collapse.Panel;
 
@@ -22,6 +24,8 @@ export interface IPropsEditorTheme extends IBaseTheme {
   main: string;
 }
 
+export {schemaType};
+
 export interface IPropsEditorProps
   extends IPropsEditorEvent,
     ISubProps,
@@ -29,11 +33,15 @@ export interface IPropsEditorProps
   /**
    * schema 输入源
    */
-  schema: object;
+  schema: schemaType;
   /**
    * 是否展现
    */
   visible?: boolean;
+  /**
+   * mbox 的 store ，用于变量输入框的自动提示
+   */
+  $store?: any;
   /**
    * 指定使用特定的属性编辑器
    */
@@ -41,34 +49,32 @@ export interface IPropsEditorProps
 }
 
 export const DEFAULT_PROPS: IPropsEditorProps = {
-  schema: {},
+  schema: {
+    group: [],
+    properties: {}
+  },
   formData: {},
   visible: true,
-  theme: {
-    main: "#25ab68"
-  },
-  styles: {
-    container: {
-      width: 300
-    }
-  }
+  $store: {},
+  theme: theme,
+  styles: styles
 };
 
 export const PropsEditorCurrying: TComponentCurrying<
   IPropsEditorProps,
   ISubProps
 > = subComponents => props => {
-  const { visible,schema,useEditor, styles,formData,onChange } = props;
+  const { visible,schema,useEditor, styles,formData,onChange,theme,$store } = props;
 
   let {group,properties} = schema;
 
   let FormSchema: Array<Object> = [];
   
   if(group && group.length > 0){
-    group.map((item: object)=>{
-      const groupProperties: Array = item.properties;
+    group.map((item:any)=>{
+      const groupProperties: [] = item.properties;
       if(groupProperties && groupProperties.length){
-        let newProperties: object = {};
+        let newProperties:any = {};
         groupProperties.map((propName:string)=>{
           newProperties[propName] = properties[propName];
         });
@@ -89,12 +95,12 @@ export const PropsEditorCurrying: TComponentCurrying<
   }
 
   //设置默认开启的 panel
-  let defaultActiveKey:Array = [];
-  FormSchema.map((item)=>{
+  let defaultActiveKey:string[] = [];
+  FormSchema.map((item:groupType)=>{
     if(item.defaultOpen){
       defaultActiveKey.push(item.name);
     }
-  })
+  });
 
 
   return (
@@ -104,9 +110,9 @@ export const PropsEditorCurrying: TComponentCurrying<
       className="ide-props-editor-container"
     >
       <Collapse defaultActiveKey={defaultActiveKey}>
-        {FormSchema.map((item)=>{
+        {FormSchema.map((item:groupType)=>{
             return <Panel header={item.title} key={item.name}>
-              <Form schema={item.properties} formData={formData}  useEditor={useEditor} onChange={onChange}  />
+              <Form key={item.name} theme={theme} styles={styles} $store={$store} schema={item.properties} formData={formData}  useEditor={useEditor} onChange={onChange}  />
             </Panel>;
         })}
         
