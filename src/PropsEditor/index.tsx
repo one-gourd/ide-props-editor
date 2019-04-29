@@ -7,7 +7,7 @@ import { TComponentCurrying } from "ide-lib-engine";
 import { StyledContainer } from "./styles";
 import { ISubProps } from "./subs";
 import { Form } from "./form";
-import {formDataType, onChangeType, schemaType, groupType, editorExtraParamType} from "./baseType";
+import {formDataType, onChangeType, schemaType, groupType, editorExtraParamType,themeStylesType} from "./baseType";
 import { theme,styles } from "./theme/default";
 
 
@@ -20,16 +20,12 @@ export interface IPropsEditorEvent {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export interface IPropsEditorTheme extends IBaseTheme {
-  main: string;
-}
-
 export {schemaType};
 
 export interface IPropsEditorProps
   extends IPropsEditorEvent,
     ISubProps,
-    IBaseComponentProps,formDataType,onChangeType {
+    formDataType,onChangeType,themeStylesType {
   /**
    * schema 输入源
    */

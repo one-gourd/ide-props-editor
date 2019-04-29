@@ -57,6 +57,8 @@ export interface groupType {
 }
 
 export interface groupsType {
+  length: number;
+  map: any;
   [index: number]: groupType;
 }
 

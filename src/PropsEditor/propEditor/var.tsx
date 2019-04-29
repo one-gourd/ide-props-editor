@@ -39,7 +39,7 @@ const getSuggestionsFormObject = (path: string, $store: any) => {
   return suggestions;
 };
 
-function reducer(state, action) {
+function reducer(state:any, action:any) {
   return Object.assign({}, {value: action.value});
 }
 
@@ -107,6 +107,6 @@ export const VarInput: React.FunctionComponent<VarInputProps> = (props) => {
     return (<Mention style={{width: '100%', minHeight: 20}} onBlur={onBlur} onSelect={onSelect} value={state.value}
                      onChange={cbChange}
                      onSearchChange={onSearchChange} suggestions={suggestions} prefix={prefix}
-                     size="small"/>);
+                     />);
   }
 };
