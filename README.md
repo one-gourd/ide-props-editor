@@ -1,6 +1,19 @@
 ## 概览
 
-ide-props-editor
+ide-props-editor 是 gourd 的属性编辑器，具有很强的扩展性，可以根据实际业务场景定制任何类型的属性编辑器。
+
+ide-props-editor 目前内置的编辑器列表：
+
+type | 类 | 用途
+--|:--:|--:
+string| StringEditor | 字符串编辑器（渲染成输入框）
+enum| EnumEditor | 枚举编辑器（渲染成选择框或单选框）
+boolean| BooleanEditor | 逻辑类型编辑器（渲染成开关）
+id| IdEditor | id类型编辑器（渲染成输入框，可复制，保证唯一性）
+number| NumberEditor | 数值类型编辑器（渲染成数值输入框）
+function| FunctionEditor | 函数类型编辑器（只调用 gourd 的葫芦面板，不自己渲染）
+array| ArrayEditor | 数组类型编辑器（会渲染一个表单表格）
+object| ObjectEditor | 对象类型编辑器（会再渲染一个子属性编辑器）
 
 ## 安装使用
 
