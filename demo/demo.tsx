@@ -21,7 +21,7 @@ const schema:schemaType = {
       "name": "base",
       "defaultOpen": true,
       "title": "基础属性",
-      "properties": ["key","children","size","loading","shap","width"]
+      "properties": ["key","children","size","loading","shap","width","dataSource","labelProp"]
     },
     {
       "name": "event",
@@ -58,10 +58,42 @@ const schema:schemaType = {
         "type": "number",
         "title": "宽度"
       },
-      "onChange":{
-        "type": "function",
-        "title": "值改变后"
+      "dataSource": {
+        "type": "array",
+        "title": "数据源",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "title": "文本",
+              "type": "string"
+            },
+            "value": {
+              "title": "值",
+              "type": "string"
+            }
+          }
+        }
+      },
+    "labelProp": {
+      "type": "object",
+      "title": "对象属性",
+      "properties": {
+        "children":{
+          "type": "string",
+          "title": "文案"
+        },
+        "size": {
+          "type": "enum",
+          "title": "大小",
+          "enum": ["small","medium","large"]
+        }
       }
+    },
+    "onChange":{
+      "type": "function",
+      "title": "值改变后"
+    }
   }
 };
 
@@ -69,9 +101,12 @@ const formData = {
   "children": "按钮测试",
   "loading": true,
   "size": "$store.$Button_999.children",
-  "key": "$Button_999",
-  //用于 id 是否唯一的判断
-  "keys": ["$Button_123"],
+  "dataSource": [
+    {"value":"value1","label":"label1"},
+    {"value":"value2","label":"label2"},
+    {"value":"value3","label":"label3"}
+    ],
+  "key": "$Button_999"
 };
 
 //mbox 的 store ，用于变量输入框的自动提示
@@ -107,6 +142,8 @@ const props: IPropsEditorProps = {
   useEditor: useEditor,
   editorExtraParam: {
     key: 'key',
+    //用于 id 是否唯一的判断
+    keys: ["$Button_123"],
     $store: $store,
     clientFnSets: clientFnSets,
     fnNameRule : '__$comId_$fnName'
@@ -136,7 +173,7 @@ const Demo:React.FunctionComponent<IPropsEditorProps> = (props)=>{
     <Col span={12}>
       <div style={{marginRight: 10}}>
         <p>属性值</p>
-        <TextArea row={6} value={JSON.stringify(state)} />
+        <TextArea row={6} style={{height: 160}} value={JSON.stringify(state)} />
         <p style={{marginTop: 10}}>
           <Button size="small">渲染属性编辑器</Button>
         </p>

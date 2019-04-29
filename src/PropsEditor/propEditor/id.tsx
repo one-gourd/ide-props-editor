@@ -32,8 +32,8 @@ const copy = (id:string)=>{
 };
 
 export const IdEditor:React.FunctionComponent<IdEditorProps> = (props)=>{
-  const {prop,prefix,formData,onChange,theme, styles} = props;
-  const ids:string[] = formData[`${prop}s`] || [];
+  const {prop,prefix,formData,onChange,theme,editorExtraParam, styles} = props;
+  const ids:string[] = editorExtraParam[`${prop}s`] || [];
   const [value,setValue] = useState(formData[prop] || '');
   const cbChange = useCallback((ev)=>{
     let {value} = ev.target;

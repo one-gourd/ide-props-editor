@@ -4,6 +4,8 @@ import { BooleanEditor } from "./propEditor/boolean";
 import { IdEditor } from "./propEditor/id";
 import { NumberEditor } from "./propEditor/number";
 import { FunctionEditor } from "./propEditor/function";
+import { ArrayEditor } from "./propEditor/array";
+import { ObjectEditor } from "./propEditor/object";
 import React from "react";
 
 export interface editorsType {
@@ -14,6 +16,8 @@ export interface editorsType {
   id: React.FunctionComponent<any> | React.Component<any,any>;
   number: React.FunctionComponent<any> | React.Component<any,any>;
   function: React.FunctionComponent<any> | React.Component<any,any>;
+  array: React.FunctionComponent<any> | React.Component<any,any>;
+  object: React.FunctionComponent<any> | React.Component<any,any>;
 }
 
 export const editors: editorsType = {
@@ -22,5 +26,7 @@ export const editors: editorsType = {
   "boolean": BooleanEditor,
   "id": IdEditor,
   "number": NumberEditor,
-  "function": FunctionEditor
+  "function": FunctionEditor,
+  "array": ArrayEditor,
+  "object": ObjectEditor
 };
