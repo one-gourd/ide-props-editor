@@ -1,13 +1,15 @@
-import React, { useState, useCallback,useReducer } from 'react';
-import { render } from 'react-dom';
-import {Row,Col,Button,Input} from 'antd';
-const { TextArea } = Input;
-import { PropsEditor, PropsEditorFactory, IPropsEditorProps,schemaType } from '../src/';
+import React, {useState, useCallback, useReducer} from 'react';
+import {render} from 'react-dom';
+import {Row, Col, Button, Input} from 'antd';
+
+const {TextArea} = Input;
+import {PropsEditor, PropsEditorFactory, IPropsEditorProps, schemaType} from '../src/';
 import {onChangeParamType} from "../src/PropsEditor/baseType";
-const { ComponentWithStore: PropsEditorWithStore, client } = PropsEditorFactory();
+
+const {ComponentWithStore: PropsEditorWithStore, client} = PropsEditorFactory();
 
 //函数编辑面板
-import { FunctionSets, FunctionSetsFactory, IFunctionSetsProps } from 'ide-function-sets';
+import {FunctionSets, FunctionSetsFactory, IFunctionSetsProps} from 'ide-function-sets';
 
 const {
   ComponentWithStore: FunctionSetsWithStore,
@@ -15,13 +17,13 @@ const {
 } = FunctionSetsFactory();
 
 
-const schema:schemaType = {
+const schema: schemaType = {
   "group": [
     {
       "name": "base",
       "defaultOpen": true,
       "title": "基础属性",
-      "properties": ["key","children","size","loading","shap","width","dataSource","labelProp"]
+      "properties": ["key", "children", "size", "loading", "shap", "width", "dataSource", "labelProp"]
     },
     {
       "name": "event",
@@ -31,66 +33,66 @@ const schema:schemaType = {
     }
   ],
   "properties": {
-      "key":{
-        "type": "id",
-        "title": "唯一 id",
-        "prefix": "$Button_"
-      },
-      "children":{
-        "type": "string",
-        "title": "文案"
-      },
-      "size": {
-        "type": "enum",
-        "title": "大小",
-        "enum": ["small","medium","large"]
-      },
-      "shap": {
-        "type": "enum",
-        "title": "形状",
-        "enum": ["small","large"]
-      },
-      "loading": {
-        "type": "boolean",
-        "title": "载入状态"
-      },
-      "width": {
-        "type": "number",
-        "title": "宽度"
-      },
-      "dataSource": {
-        "type": "array",
-        "title": "数据源",
-        "items": {
-          "type": "object",
-          "properties": {
-            "label": {
-              "title": "文本",
-              "type": "string"
-            },
-            "value": {
-              "title": "值",
-              "type": "string"
-            }
+    "key": {
+      "type": "id",
+      "title": "唯一 id",
+      "prefix": "$Button_"
+    },
+    "children": {
+      "type": "string",
+      "title": "文案"
+    },
+    "size": {
+      "type": "enum",
+      "title": "大小",
+      "enum": ["small", "medium", "large"]
+    },
+    "shap": {
+      "type": "enum",
+      "title": "形状",
+      "enum": ["small", "large"]
+    },
+    "loading": {
+      "type": "boolean",
+      "title": "载入状态"
+    },
+    "width": {
+      "type": "number",
+      "title": "宽度"
+    },
+    "dataSource": {
+      "type": "array",
+      "title": "数据源",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "title": "文本",
+            "type": "string"
+          },
+          "value": {
+            "title": "值",
+            "type": "string"
           }
         }
-      },
+      }
+    },
     "labelProp": {
       "type": "object",
       "title": "对象属性",
       "properties": {
-        "children":{
+        "children": {
           "type": "string",
           "title": "文案"
         },
         "size": {
           "type": "enum",
           "title": "大小",
-          "enum": ["small","medium","large"]
+          "enum": ["small", "medium", "large"]
         }
       }
     },
-    "onChange":{
+    "onChange": {
       "type": "function",
       "title": "值改变后"
     }
@@ -102,10 +104,10 @@ const formData = {
   "loading": true,
   "size": "$store.$Button_999.children",
   "dataSource": [
-    {"value":"value1","label":"label1"},
-    {"value":"value2","label":"label2"},
-    {"value":"value3","label":"label3"}
-    ],
+    {"value": "value1", "label": "label1"},
+    {"value": "value2", "label": "label2"},
+    {"value": "value3", "label": "label3"}
+  ],
   "key": "$Button_999"
 };
 
@@ -128,7 +130,7 @@ const $store = {
  * @param editors
  * @returns {any}
  */
-function useEditor(propSchema:any,editors:any):any{
+function useEditor(propSchema: any, editors: any): any {
   const {type} = propSchema;
   let Editor;
   return null;
@@ -137,7 +139,7 @@ function useEditor(propSchema:any,editors:any):any{
 const props: IPropsEditorProps = {
   visible: true,
   schema: schema,
-  formData : formData,
+  formData: formData,
   $store: $store,
   useEditor: useEditor,
   editorExtraParam: {
@@ -146,7 +148,7 @@ const props: IPropsEditorProps = {
     keys: ["$Button_123"],
     $store: $store,
     clientFnSets: clientFnSets,
-    fnNameRule : '__$comId_$fnName'
+    fnNameRule: '__$comId_$fnName'
   }
 };
 
@@ -154,36 +156,36 @@ const props: IPropsEditorProps = {
 function onFnListChange(type, fnItem, fnLists, actionContext) {
   console.log(`list change, type: ${type}, fnItem: %o`, fnItem);
 
-  const { context } = actionContext;
+  const {context} = actionContext;
 
   // 没有报错，才会自动关闭弹层
   return !context.hasError;
 }
 
-function reducer(state,action) {
-  return Object.assign({},action.formData);
+function reducer(state, action) {
+  return Object.assign({}, action.formData);
 }
 
-const Demo:React.FunctionComponent<IPropsEditorProps> = (props)=>{
+const Demo: React.FunctionComponent<IPropsEditorProps> = (props) => {
   const [state, dispatch] = useReducer(reducer, formData);
-  const handleChange = useCallback((ev:onChangeParamType)=>{
-    dispatch({type:'change',formData: ev.formData});
+  const handleChange = useCallback((ev: onChangeParamType) => {
+    dispatch({type: 'change', formData: ev.formData});
   }, []);
   return (<div><Row>
     <Col span={12}>
       <div style={{marginRight: 10}}>
         <p>属性值</p>
-        <TextArea row={6} style={{height: 160}} value={JSON.stringify(state)} />
+        <TextArea row={6} style={{height: 160}} value={JSON.stringify(state)}/>
         <p style={{marginTop: 10}}>
           <Button size="small">渲染属性编辑器</Button>
         </p>
       </div>
     </Col>
     <Col span={12}>
-      <PropsEditor {...props} onChange={handleChange} />
+      <PropsEditor {...props} onChange={handleChange}/>
     </Col>
   </Row>
-  <FunctionSetsWithStore onFnListChange={onFnListChange}/>
+    <FunctionSetsWithStore onFnListChange={onFnListChange}/>
   </div>);
 };
 
