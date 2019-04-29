@@ -50,3 +50,6 @@ storybook-static
 # output demo
 .cache
 public
+
+
+.idea
