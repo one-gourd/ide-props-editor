@@ -24,7 +24,7 @@ export const FunctionEditor:React.FunctionComponent<FunctionEditorProps> = (prop
     clientFnSets.put('/fn-panel', {
       type: 'add',
       name: fnName
-    }).then(res => {
+    }).then((res:any) => {
       console.log('res: ', res.body.message);
     });
   },[]);

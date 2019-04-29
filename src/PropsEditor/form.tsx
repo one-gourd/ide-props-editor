@@ -39,7 +39,7 @@ export interface FormProps extends formDataType, onChangeType, themeStylesType {
   /**
    * schema 输入源
    */
-  schema: propertiesType;
+  schema: any;
 
   useEditor?(propSchema: any, editors: any): any;
 
@@ -55,7 +55,7 @@ export const DEFAULT_PROPS: FormProps = {
 export const Form: React.FunctionComponent<FormProps> = (props) => {
   const mergedProps = Object.assign({}, DEFAULT_PROPS, props);
   const {schema, useEditor, formData, onChange, theme, styles, editorExtraParam} = mergedProps;
-  const fields: Array<React.FunctionComponent> = [];
+  const fields = [];
   for (const fieldName in schema) {
     fields.push(<Field {...schema[fieldName]} theme={theme} styles={styles} editorExtraParam={editorExtraParam}
                        prop={fieldName} formData={formData} onChange={onChange} useEditor={useEditor}/>);
@@ -63,4 +63,4 @@ export const Form: React.FunctionComponent<FormProps> = (props) => {
   return (<div style={styles.form}>
     {fields}
   </div>);
-}
+};
