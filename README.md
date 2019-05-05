@@ -2,6 +2,8 @@
 
 ide-props-editor 是 gourd 的属性编辑器，具有很强的扩展性，可以根据实际业务场景定制任何类型的属性编辑器。
 
+![https://img.alicdn.com/tfs/TB1pMIeUhTpK1RjSZFKXXa2wXXa-299-502.png](https://img.alicdn.com/tfs/TB1pMIeUhTpK1RjSZFKXXa2wXXa-299-502.png)
+
 ide-props-editor 目前内置的编辑器列表：
 
 type | 类 | 用途
