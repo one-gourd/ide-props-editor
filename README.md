@@ -7,7 +7,7 @@ ide-props-editor 是 gourd 的属性编辑器，具有很强的扩展性，可�
 ide-props-editor 目前内置的编辑器列表：
 
 type | 类 | 用途
---|:--:|:--:
+--|:--:|:--
 string| StringEditor | 字符串编辑器（渲染成输入框）
 enum| EnumEditor | 枚举编辑器（渲染成选择框或单选框）
 boolean| BooleanEditor | 逻辑类型编辑器（渲染成开关）
