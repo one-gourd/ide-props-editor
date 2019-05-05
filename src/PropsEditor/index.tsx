@@ -13,17 +13,11 @@ import { theme,styles } from "./theme/default";
 
 const Panel = Collapse.Panel;
 
-export interface IPropsEditorEvent {
-  /**
-   * 点击回调函数
-   */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-}
 
 export {schemaType};
 
 export interface IPropsEditorProps
-  extends IPropsEditorEvent,
+  extends
     ISubProps,
     formDataType,onChangeType,themeStylesType {
   /**

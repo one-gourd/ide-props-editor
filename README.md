@@ -17,6 +17,8 @@ function| FunctionEditor | 函数类型编辑器（只调用 gourd 的葫芦面�
 array| ArrayEditor | 数组类型编辑器（会渲染一个表单表格）
 object| ObjectEditor | 对象类型编辑器（会再渲染一个子属性编辑器）
 
+
+
 ## 安装使用
 
 npm 包方式：
@@ -44,7 +46,39 @@ web 方式：
 }
 ```
 
-## 用法
+## 如何本地开发？
+
+### 本地调试
+
+首先从 git 仓库拉取代码，安装依赖项：
+```shell
+git clone git@github.com:one-gourd/ide-props-editor.git
+
+npm install
+
+## 安装 peerDependencies 依赖包
+npm install ide-lib-utils@0.x ide-lib-base-component@0.x ide-lib-engine@0.x ette@0.x ide-function-sets@0.x ette-proxy@0.x ette-router@0.x antd@3.x mobx@4.x mobx-react@5.x mobx-react-lite@1.x mobx-state-tree@3.10.x react@16.x styled-components@4.x.x react-dom@16.x
+```
+
+运行以下命令后，访问 demo 地址： http://localhost:9000
+```shell
+npm run dev
+```
+
+也可访问 [storybook](https://github.com/storybooks/storybook) 参考具体的使用案例：http://localhost:9001/
+```shell
+npm run storybook
+```
+
+### 运行测试用例
+
+使用 [jest](https://jestjs.io) 进行测试，执行：
+
+```shell
+npm test
+```
+
+## 简单用法
 
 ```js
 
@@ -227,36 +261,16 @@ const props: IPropsEditorProps = {
 
 ```
 
-## 如何本地开发？
 
-### 本地调试
+## 详细 API 
 
-首先从 git 仓库拉取代码，安装依赖项：
-```shell
-git clone git@github.com:one-gourd/ide-props-editor.git
-
-npm install
-
-## 安装 peerDependencies 依赖包
-npm install ide-lib-utils@0.x ide-lib-base-component@0.x ide-lib-engine@0.x ette@0.x ide-function-sets@0.x ette-proxy@0.x ette-router@0.x antd@3.x mobx@4.x mobx-react@5.x mobx-react-lite@1.x mobx-state-tree@3.10.x react@16.x styled-components@4.x.x react-dom@16.x
-```
-
-运行以下命令后，访问 demo 地址： http://localhost:9000
-```shell
-npm run dev
-```
-
-也可访问 [storybook](https://github.com/storybooks/storybook) 参考具体的使用案例：http://localhost:9001/
-```shell
-npm run storybook
-```
-
-### 运行测试用例
-
-使用 [jest](https://jestjs.io) 进行测试，执行：
-
-```shell
-npm test
-```
-
-
+属性 | 用途 | 类型 | 默认值
+--|--|--|--
+schema| 输入源 schema ,必填 | schemaType |  {group: [],properties: {}} 
+formData | 默认数据 | object |  {}
+useEditor| 指定使用特定的属性编辑器 | function |  null
+onChange| 值改变后触发的事件 | onChangeParamType |  {formData: any,prop: string,value: any}
+visible| 是否显示 | boolean |  true
+theme| 主题配置 | object | {}
+styles| 样式配置 | object |  {}
+ 

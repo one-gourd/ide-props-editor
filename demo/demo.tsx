@@ -151,16 +151,6 @@ const props: IPropsEditorProps = {
   }
 };
 
-// 当函数有更改的时候
-function onFnListChange(type, fnItem, fnLists, actionContext) {
-  console.log(`list change, type: ${type}, fnItem: %o`, fnItem);
-
-  const {context} = actionContext;
-
-  // 没有报错，才会自动关闭弹层
-  return !context.hasError;
-}
-
 function reducer(state, action) {
   return Object.assign({}, action.formData);
 }
@@ -181,7 +171,9 @@ const Demo: React.FunctionComponent<IPropsEditorProps> = (props) => {
       <PropsEditor {...props} onChange={handleChange}/>
     </Col>
   </Row>
-    <FunctionSetsWithStore onFnListChange={onFnListChange}/>
+    <div style={{marginTop: 10}}>
+      <FunctionSetsWithStore/>
+    </div>
   </div>);
 };
 
