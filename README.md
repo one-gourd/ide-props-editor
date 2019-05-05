@@ -42,13 +42,196 @@ web 方式：
 }
 ```
 
+## 用法
+
+```js
+
+import {PropsEditor, IPropsEditorProps, schemaType} from 'ide-props-editor';
+
+```
+
+输入源是标准的 schema （详细语义请看 gourd 的 schema 规范）：
+
+
+```js
+
+const schema: schemaType = {
+  "group": [
+    {
+      "name": "base",
+      "defaultOpen": true,
+      "title": "基础属性",
+      "properties": ["key", "children", "size", "loading", "shap", "width", "dataSource", "labelProp"]
+    },
+    {
+      "name": "event",
+      "defaultOpen": true,
+      "title": "事件",
+      "properties": ["onChange"]
+    }
+  ],
+  "properties": {
+    "key": {
+      "type": "id",
+      "title": "唯一 id",
+      "prefix": "$Button_"
+    },
+    "children": {
+      "type": "string",
+      "title": "文案"
+    },
+    "size": {
+      "type": "enum",
+      "title": "大小",
+      "enum": ["small", "medium", "large"]
+    },
+    "shap": {
+      "type": "enum",
+      "title": "形状",
+      "enum": ["small", "large"]
+    },
+    "loading": {
+      "type": "boolean",
+      "title": "载入状态"
+    },
+    "width": {
+      "type": "number",
+      "title": "宽度"
+    },
+    "dataSource": {
+      "type": "array",
+      "title": "数据源",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "title": "文本",
+            "type": "string"
+          },
+          "value": {
+            "title": "值",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "labelProp": {
+      "type": "object",
+      "title": "对象属性",
+      "properties": {
+        "children": {
+          "type": "string",
+          "title": "文案"
+        },
+        "size": {
+          "type": "enum",
+          "title": "大小",
+          "enum": ["small", "medium", "large"]
+        }
+      }
+    },
+    "onChange": {
+      "type": "function",
+      "title": "值改变后"
+    }
+  }
+};
+```
+
+可以配置已经存在的属性值：
+
+```js
+
+const formData = {
+  "children": "按钮测试",
+  "loading": true,
+  "size": "$store.$Button_999.children",
+  "dataSource": [
+    {"value": "value1", "label": "label1"},
+    {"value": "value2", "label": "label2"},
+    {"value": "value3", "label": "label3"}
+  ],
+  "key": "$Button_999"
+};
+
+```
+
+（非必须）配置 mbox 的 store 对象，用于变量输入框的自动提示
+
+```js
+
+const $store = {
+  $Button_999: {
+    "children": "按钮测试",
+    "loading": true,
+    "size": "medium",
+    "key": "$Button_999"
+  },
+  "a": {
+    "loading": false
+  }
+};
+
+```
+
+（非必须）可以挂载或覆盖自定义的编辑器
+
+```js
+
+function useEditor(propSchema: any, editors: any): any {
+  const {type} = propSchema;
+  let Editor;
+  
+  if(type === 'abc'){
+    return (<div>自定义的编辑器</div>);
+  }
+  
+  return null;
+}
+
+```
+
+配置组件属性：
+
+```js
+
+const props: IPropsEditorProps = {
+  visible: true,
+  schema: schema,
+  formData: formData,
+  useEditor: useEditor,
+  editorExtraParam: {
+    key: 'key',
+    //用于 id 是否唯一的判断
+    keys: ["$Button_123"],
+    $store: $store,
+    clientFnSets: clientFnSets,
+    fnNameRule: '__$comId_$fnName'
+  }
+};
+
+```
+
+初始化组件：
+
+
+```js
+
+  const handleChange = useCallback((ev: any) => {
+    console.log(ev.formData);
+  }, []);
+
+<PropsEditor {...props} onChange={handleChange}/>
+
+```
+
 ## 如何本地开发？
 
 ### 本地调试
 
 首先从 git 仓库拉取代码，安装依赖项：
 ```shell
-git clone git@github.com:alibaba-paimai-frontend/ide-props-editor.git
+git clone git@github.com:one-gourd/ide-props-editor.git
 
 npm install
 

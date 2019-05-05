@@ -7,10 +7,10 @@
   "browser": "dist/index.umd.js",
   "typings": "dist/index.d.ts",
   "sideEffects": false,
-  "homepage": "https://github.com/alibaba-paimai-frontend/ide-props-editor",
+  "homepage": "https://github.com/one-gourd/ide-props-editor",
   "repository": {
     "type": "git",
-    "url": "git@github.com:alibaba-paimai-frontend/ide-props-editor.git"
+    "url": "git@github.com:one-gourd/ide-props-editor.git"
   },
   "scripts": {
     "test": "./node_modules/.bin/jest",

@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useReducer} from 'react';
 import {render} from 'react-dom';
-import {Row, Col, Button, Input} from 'antd';
+import {Row, Col, Input} from 'antd';
 
 const {TextArea} = Input;
 import {PropsEditor, PropsEditorFactory, IPropsEditorProps, schemaType} from '../src/';
@@ -140,7 +140,6 @@ const props: IPropsEditorProps = {
   visible: true,
   schema: schema,
   formData: formData,
-  $store: $store,
   useEditor: useEditor,
   editorExtraParam: {
     key: 'key',
@@ -176,9 +175,6 @@ const Demo: React.FunctionComponent<IPropsEditorProps> = (props) => {
       <div style={{marginRight: 10}}>
         <p>属性值</p>
         <TextArea row={6} style={{height: 160}} value={JSON.stringify(state)}/>
-        <p style={{marginTop: 10}}>
-          <Button size="small">渲染属性编辑器</Button>
-        </p>
       </div>
     </Col>
     <Col span={12}>
