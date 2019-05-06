@@ -93,6 +93,7 @@ export const PropsEditorCurrying: TComponentCurrying<
     <StyledContainer
       style={styles.container}
       visible={visible}
+      theme={theme}
       className="ide-props-editor-container"
     >
       <Collapse defaultActiveKey={defaultActiveKey}>

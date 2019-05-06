@@ -5,6 +5,7 @@
 
 import React from "react";
 import {editors} from "./edtiors";
+import { StyledForm } from "./styles";
 import {propType, formDataType, onChangeType, propertiesType, themeStylesType, editorExtraParamType} from "./baseType";
 
 interface FieldProps extends propType, formDataType, onChangeType, themeStylesType {
@@ -60,7 +61,7 @@ export const Form: React.FunctionComponent<FormProps> = (props) => {
     fields.push(<Field {...schema[fieldName]} theme={theme} styles={styles} editorExtraParam={editorExtraParam}
                        prop={fieldName} formData={formData} onChange={onChange} useEditor={useEditor}/>);
   }
-  return (<div style={styles.form}>
+  return (<StyledForm style={styles} theme={theme}>
     {fields}
-  </div>);
+  </StyledForm>);
 };

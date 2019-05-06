@@ -4,9 +4,9 @@ import { IPropsEditorProps } from './index';
 
 interface IStyledProps extends IPropsEditorProps, IBaseStyledProps {}
 
-export const StyledContainer = styled.div.attrs({
-  style: (props: any) => props.style || {}  // 优先级会高一些，行内样式
-})<IStyledProps>`
+export const StyledContainer = styled.div.attrs((props)=>({
+  mainColor:  props.theme.main
+}))<IStyledProps>`
   display: ${(props: IStyledProps) => (props.visible ? 'block' : 'none')};
   .ant-collapse{
     border-radius: 0;
@@ -18,6 +18,40 @@ export const StyledContainer = styled.div.attrs({
   }
   .ant-collapse > .ant-collapse-item > .ant-collapse-header .arrow{
     left: 10px;
+  }
+`;
+
+/**
+ * 重置 antd 的表单样式，支持主题配置
+ * @type {boolean}
+ */
+export const StyledForm = styled.div.attrs((props)=>({
+  mainColor:  props.theme.main
+}))<IStyledProps>`
+  .ant-select-focused .ant-select-selection{
+      border-color: ${(props: IStyledProps) => props.mainColor} !important;  
+  }
+  .ant-btn-primary{
+    background-color: ${(props: IStyledProps) => props.mainColor};
+    border-color: ${(props: IStyledProps) => props.mainColor};
+  }
+  .ant-btn-primary:hover, .ant-btn-primary:focus{
+    background-color: ${(props: IStyledProps) => props.mainColor};
+    border-color: ${(props: IStyledProps) => props.mainColor};  
+  }
+  .ant-input:hover,.ant-input:focus,.ant-input-number:hover,.ant-input-number-focused{
+    border-color: ${(props: IStyledProps) => props.mainColor} !important;  
+    box-shadow: 0 0 0 2px  #fff !important;  
+  }
+  .ant-switch-checked{
+    background-color: ${(props: IStyledProps) => props.mainColor};
+  }
+  .ant-radio-button-wrapper:hover, .ant-radio-button-wrapper-focused{
+     color: ${(props: IStyledProps) => props.mainColor};  
+  }
+  .ant-radio-button-wrapper-checked{
+     color: ${(props: IStyledProps) => props.mainColor};  
+     border-color: ${(props: IStyledProps) => props.mainColor} !important;  
   }
 `;
 
