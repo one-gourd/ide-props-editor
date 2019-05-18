@@ -38,7 +38,7 @@ export const EnumEditor: React.FunctionComponent<EnumEditorProps> = (props) => {
 
   const EditerMain = (<Widget size="small" style={{width: '100%'}} onChange={cbChange} value={value}>
     {enumValues.map((enumValue) => {
-      return (<WidgetOption value={enumValue}>{enumValue === '' && '请选择' || enumValue}</WidgetOption>);
+      return (<WidgetOption key={`enum_${enumValue}`} value={enumValue}>{enumValue === '' && '请选择' || enumValue}</WidgetOption>);
     })}
   </Widget>);
 

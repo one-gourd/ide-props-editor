@@ -9,6 +9,8 @@ import {propEditorType} from "../baseType";
 
 export interface FunctionEditorProps  extends propEditorType{}
 
+const OPERATION_FROM = 'PROPS_EDITOR';  // 函数操作来源标识，方便函数面板对不同的来源做不同的处理
+
 export const FunctionEditor:React.FunctionComponent<FunctionEditorProps> = (props)=>{
   const {prop,formData,onChange,editorExtraParam} = props;
   const {clientFnSets,fnNameRule,key} = editorExtraParam;
@@ -44,12 +46,13 @@ export const FunctionEditor:React.FunctionComponent<FunctionEditorProps> = (prop
   });
 
   const onClick = useCallback(()=>{
-    //唤起函数面板
+    // 如果有删除按钮，说明函数存在，唤起编辑面板，否则唤起新增面板
     clientFnSets.put('/fn-panel', {
-      type: 'add',
-      name: fnName
+      type: showDel ? 'edit' : 'add',
+      name: fnName,
+      from: OPERATION_FROM
     });
-  },[]);
+  }, [showDel]);
 
   /**
    * 删除函数内容
@@ -58,6 +61,10 @@ export const FunctionEditor:React.FunctionComponent<FunctionEditorProps> = (prop
     if(value){
       delete formData[value];
       changeFormData(prop,'',formData,onChange);
+
+      // 同时调用函数面板的删除操作
+      clientFnSets.del(`/fn-item/${value}`);
+
     }
     setShowDel(false);
   },[value]);

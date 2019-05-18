@@ -58,7 +58,7 @@ export const Form: React.FunctionComponent<FormProps> = (props) => {
   const {schema, useEditor, formData, onChange, theme, styles, editorExtraParam} = mergedProps;
   const fields = [];
   for (const fieldName in schema) {
-    fields.push(<Field {...schema[fieldName]} theme={theme} styles={styles} editorExtraParam={editorExtraParam}
+    fields.push(<Field key={`field_${fieldName}`}  {...schema[fieldName]} theme={theme} styles={styles} editorExtraParam={editorExtraParam}
                        prop={fieldName} formData={formData} onChange={onChange} useEditor={useEditor}/>);
   }
   return (<StyledForm style={styles} theme={theme}>

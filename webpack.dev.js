@@ -12,7 +12,7 @@ module.exports = common.map(config => {
     devtool: 'inline-source-map',
     devServer: {
       contentBase: path.join(__dirname, targetDir),
-      port: 9000,
+      port: process.env.PORT || 9000,
       hot: true
     },
     plugins: [
