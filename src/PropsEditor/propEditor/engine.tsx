@@ -89,5 +89,5 @@ export const valueChange = (value:string,setValue:any,prop:string,formData:objec
     }
     setValue(value);
     changeFormData(prop,value,formData,onChange);
-  },[]);
+  }, [value, setValue, prop, formData]);
 };

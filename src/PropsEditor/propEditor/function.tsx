@@ -2,7 +2,7 @@
  * 编辑函数
  */
 
-import React,{useState,useCallback} from "react";
+import React, { useState, useCallback, useMemo} from "react";
 import {Button,Tooltip} from 'antd';
 import {changeFormData, InlineWrapper} from './engine';
 import {propEditorType} from "../baseType";
@@ -13,7 +13,7 @@ const OPERATION_FROM = 'PROPS_EDITOR';  // 函数操作来源标识，方便函�
 
 export const FunctionEditor:React.FunctionComponent<FunctionEditorProps> = (props)=>{
   const {prop,formData,onChange,editorExtraParam} = props;
-  const {clientFnSets,fnNameRule,key} = editorExtraParam;
+  const { clientFnSets, fnNameRule, key, onCallFnEditor} = editorExtraParam;
   const [value,setValue] = useState(formData[prop] || '');
   let fnName = '';
   if(!value){
@@ -28,31 +28,41 @@ export const FunctionEditor:React.FunctionComponent<FunctionEditorProps> = (prop
   const [showDel,setShowDel] = useState(value !== '');
 
 
-  /**
-   * 函数内容改变后
-   */
-  clientFnSets.subscribe('/onSubmitChange', {
-    onMessage: (data:any) => {
-      const {hasError,fnItem} = data;
-      if(!hasError){
-        const {name,body} = fnItem;
-        setValue(name);
-        //函数内容
-        formData[name] = body;
-        changeFormData(prop,value,formData,onChange);
-        setShowDel(true);
+/**
+* 函数内容改变后
+*/
+  useMemo(()=>{
+    // if (clientFnSets.hasSubscribe('/onSubmitChange')){
+    //   clientFnSets.unsubscribe('/onSubmitChange')
+    // }
+    clientFnSets.subscribe('/onSubmitChange', {
+      onMessage: (data: any) => {
+        const { hasError, fnItem } = data;
+        if (!hasError) {
+          const { name,/* body */ } = fnItem;
+          setValue(name);
+          //函数内容，不需要通知函数内容
+          // formData[name] = body;
+          // console.log(444, prop, name);
+          changeFormData(prop, name, formData, onChange);
+          setShowDel(true);
+        }
       }
-    }
-  });
+    });
+  }, [clientFnSets]);
 
   const onClick = useCallback(()=>{
     // 如果有删除按钮，说明函数存在，唤起编辑面板，否则唤起新增面板
+    const fnType = showDel ? 'edit' : 'add';
     clientFnSets.put('/fn-panel', {
-      type: showDel ? 'edit' : 'add',
+      type: fnType,
       name: fnName,
       from: OPERATION_FROM
     });
-  }, [showDel]);
+
+    onCallFnEditor && onCallFnEditor(fnType, fnName);
+
+  }, [showDel, fnName, onCallFnEditor]);
 
   /**
    * 删除函数内容
@@ -64,7 +74,6 @@ export const FunctionEditor:React.FunctionComponent<FunctionEditorProps> = (prop
 
       // 同时调用函数面板的删除操作
       clientFnSets.del(`/fn-item/${value}`);
-
     }
     setShowDel(false);
   },[value]);

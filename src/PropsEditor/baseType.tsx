@@ -94,5 +94,12 @@ export interface editorExtraParamType{
    * 函数名规则
    */
   fnNameRule?: string;
+
+  /**
+   * 点击 "编辑函数" 时的回调函数，用于外部监听
+   */
+  onCallFnEditor?: (type: string, name: string) => void;
+
+
   [prop: string]: any;
 }

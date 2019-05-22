@@ -17,6 +17,7 @@
     "build-storybook": "build-storybook -c .storybook",
     "release": "npx standard-version",
     "dev": "webpack-dev-server --config webpack.dev.js",
+    "build:dev": "DEBUG=true webpack --config webpack.prod.js",
     "build": "webpack --config webpack.prod.js",
     "pregh-pages": "node ./node-helper/download-code-worker.js",
     "gh-pages": "webpack --config webpack.gh-pages.js && npx gh-pages -d public",
