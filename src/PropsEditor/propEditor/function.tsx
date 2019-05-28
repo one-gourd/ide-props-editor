@@ -5,11 +5,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Button, Tooltip } from 'antd';
 import { changeFormData, InlineWrapper } from './engine';
-import {
-  propEditorType,
-  WRAPPER_TYPE,
-  FN_NAME_WRAPPER
-} from '../baseType';
+import { propEditorType, WRAPPER_TYPE, FN_NAME_WRAPPER } from '../baseType';
 
 export interface FunctionEditorProps extends propEditorType {}
 
@@ -43,7 +39,8 @@ export const FunctionEditor: React.FunctionComponent<
 
   //控制删除按钮的显示隐藏
   const [showDel, setShowDel] = useState(value !== '');
-
+  // 标记不同的来源
+  const fromFlag = `${OPERATION_FROM}:${prop}`;
   /**
    * 函数内容改变后
    */
@@ -53,8 +50,8 @@ export const FunctionEditor: React.FunctionComponent<
     // }
     clientFnSets.subscribe('/onSubmitChange', {
       onMessage: (data: any) => {
-        const { hasError, fnItem } = data;
-        if (!hasError) {
+        const { hasError, fnItem, from } = data;
+        if (!hasError && from === fromFlag) {
           const { name /* body */ } = fnItem;
           setValue(name);
           //函数内容，不需要通知函数内容
@@ -78,7 +75,7 @@ export const FunctionEditor: React.FunctionComponent<
     clientFnSets.put('/fn-panel', {
       type: fnType,
       name: fnName,
-      from: OPERATION_FROM
+      from: fromFlag
     });
 
     onCallFnEditor && onCallFnEditor(fnType, fnName);
