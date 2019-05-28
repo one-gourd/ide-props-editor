@@ -17,7 +17,6 @@ export interface propType {
   [prop: string]: any;
 }
 
-
 export interface objectType {
   [prop: string]: any;
 }
@@ -30,9 +29,9 @@ export interface formDataType {
 }
 
 export interface onChangeParamType {
-  value: any,
-  prop: string,
-  formData?: objectType
+  value: any;
+  prop: string;
+  formData?: objectType;
 }
 
 export interface onChangeType {
@@ -77,19 +76,35 @@ export interface schemaType {
   properties: propertiesType;
 }
 
-export interface editorExtraParamType{
+/* ----------------------------------------------------
+    函数名包装/解包装函数
+    有些场景下函数名是 `{{$Button_onChange}}`，而另外有些地方是直接 `$Button_onChange`
+    因此需要包装函数用用户自定义处理
+----------------------------------------------------- */
+export enum WRAPPER_TYPE {
+  WRAP = 'WRAP',
+  UNWRAP = 'UNWRAP'
+}
+export type TNameWrapper = (fnName: string, type: WRAPPER_TYPE) => string;
+
+export const FN_NAME_WRAPPER: TNameWrapper = (fnName, type) => {
+  return fnName;
+};
+// ========
+
+export interface editorExtraParamType {
   /**
    * 用于标记唯一性的属性名
    */
-  key?:string;
+  key?: string;
   /**
    * mbox 的 store ，用于变量输入框的自动提示
    */
-  $store?:any;
+  $store?: any;
   /**
    * 函数编辑器使用，用于调用函数面板
    */
-  clientFnSets?:any;
+  clientFnSets?: any;
   /**
    * 函数名规则
    */
@@ -100,6 +115,12 @@ export interface editorExtraParamType{
    */
   onCallFnEditor?: (type: string, name: string) => void;
 
+  /**
+   * 函数名包装器
+   * 有些场景下变量名是 `{{$Button_onChange}}`，而另外有些地方是直接 `$Button_onChange`
+    因此需要包装函数用用户自定义处理
+   */
+  varNameWrapper?: TNameWrapper;
 
   [prop: string]: any;
 }
